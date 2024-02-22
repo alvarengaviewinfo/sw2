@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>fieldset{margin:1% auto;};table{margin-top:20px;};.box-mensagem-crud{margin-top: 10px;};.msg-erro{color: red;}</style>
+
+</head>
+<body>
+    <div id="texto">
+        <p>oi meu amigo</p>
+        <p>oi minha amiga</p>
+        <p>olá cachorro</p>
+    </div>
+
+    <button onclick="lerTexto()">ler</button>
+
+    <script src="js/jquery/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script src="js/jquery/jquery-3.7.1.min.map"></script>
+    <script>
+        function lerTexto() {
+    var textoElemento = document.getElementById('texto');
+    var textoParaFalar = textoElemento.innerText;
+
+    if ('speechSynthesis' in window) {
+        var synthesizer = window.speechSynthesis;
+        var utterance = new SpeechSynthesisUtterance(textoParaFalar);
+
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.0;
+        utterance.volume = 1.0;
+        synthesizer.speak(utterance);
+        utterance.onend = function () {
+            synthesizer.cancel(); // Cancela a leitura atual
+            alert('Leitura concluída.');
+        };
+    } else {
+        alert('Seu navegador não suporta a API de Text-to-Speech.');
+    }
+}
+$("body").load(function(){
+    
+})    </script>
+</body>
+</html>

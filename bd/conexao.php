@@ -34,7 +34,7 @@ class conexao{
     */
     public static function getInstance(){
         $hostname = "localhost";
-        $bancodedados = "sw1";
+        $bancodedados = "sw2";
         $usuario = "root";
         $senha = "";
 

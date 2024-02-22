@@ -1,12 +1,32 @@
 <?php 
+session_start();
 
 require 'bd/conexao.php';
 
-$conexao = conexao::getInstance();
-$sql = 'SELECT id, nome, email, celular, status FROM cliente order by nome';
-$stm = $conexao->prepare($sql);
-$stm->execute();
-$clientes = $stm->fetchAll(PDO::FETCH_OBJ);
+// recebe o termo de pesquisa se existir
+$termo = $_SESSION['termo'];
+
+// Verifica se o termo de pesquisa esta vazio, se estivar executar uma consulta completa
+if (empty($termo)):
+
+    $conexao = conexao::getInstance();
+    $sql = 'SELECT id, nome, email, celular, status FROM cliente order by nome';
+    $stm = $conexao->prepare($sql);
+    $stm->execute();
+    $clientes = $stm->fetchAll(PDO::FETCH_OBJ);
+
+else:
+
+    //Executa uma consulta baseada no termo de pesquisa passado como parametro
+    $conexao = conexao::getInstance();
+    $sql = 'SELECT id, nome, email, celular, status FROM cliente WHERE nome LiKE :nome OR email LIKE :email';
+    $stm = $conexao->prepare($sql);
+    $stm->bindValue(':nome', $termo. '%');
+    $stm->bindValue(':email', $termo. '%');
+    $stm->execute();
+    $clientes = $stm->fetchAll(PDO::FETCH_OBJ);
+endif;
+
 
 // iniciar o HTML
 $html = '<h1> Listagem de Cliente </h1>';
@@ -23,13 +43,13 @@ if (!empty($clientes)):
         </tr>';
         foreach ($clientes as $cliente): 
             $html.='<tr>
-                <td>'. $cliente->nome .'
+                <td style="width: 11rem;text-align: center;">'. $cliente->nome .'
                 </td>
-                <td>'.$cliente->email.'
+                <td style="width: 11rem;text-align: center;">'.$cliente->email.'
                 </td>
-                <td>'. $cliente->celular .'
+                <td style="width: 11rem;text-align: center;">'. $cliente->celular .'
                 </td>
-                <td>'. $cliente->status .'
+                <td style="width: 11rem;text-align: center;">'. $cliente->status .'
                 </td>                
             </tr>';
          endforeach;
@@ -42,10 +62,13 @@ require './vendor/autoload.php';
 
 // referenciar o Dompdf namespace
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 // instantiate and use the dompdf class
 
-$dompdf = new Dompdf();
+$options = new Options(); 
+$options->set('isRemoteEnabled', TRUE);
+$dompdf = new Dompdf($options);
 $dompdf->loadHtml($html);
 
 

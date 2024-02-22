@@ -1,94 +1,130 @@
 <?php
-require 'bd/conexao.php';
-
-//Recebe o termo de pesquisa se existir
-$termo = (isset($_GET['termo'])) ? $_GET['termo'] : '';
-
-//Verifica se o termo da pesquisa está vazio, se estiver executa uma consulta completa
-if (empty($termo)):
-
-    $conexao = conexao::getInstance();
-    $sql = 'SELECT id, nome, email, celular, status FROM cliente order by nome';
-    $stm = $conexao->prepare($sql);
-    $stm->execute();
-    $clientes = $stm->fetchAll(PDO::FETCH_OBJ);
-
-else:
-
-    //Executa uma consulta baseada no termo de pesquisa passado como parâmetro
-    $conexao = conexao::getInstance();
-    $sql = 'SELECT id, nome, email,celular, status FROM cliente WHERE nome LIKE :nome OR email LIKE :email';
-    $stm =$conexão-> prepare($sql);
-    $stm->bindValue(':nome',$termo.'%');
-    $stm->bindValue(':email',$termo.'%');
-    $stm->execute();
-    $clientes = $stm->fetchAll(PDO::FETCH_OBJ);
-
-endif;
+session_start();
+if (isset($_SESSION["nome"])) {
+    $nome = $_SESSION["nome"];
+    // Agora você pode usar a variável $nome em qualquer lugar desta página    
+}
 ?>
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Listagem de Clientes</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/custom.css">
-    </head>
-    <body>
-        <div class="container">
-            <fieldset>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Link do css do bootstrap na maquina -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css.map">
+    <!-- link css do bootstrap da barra de pesquisa -->
+    <link rel="stylesheet" href="css/navbar-fixed.css">
+    <!-- link css customizado -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #nomeUsu{
+            color: #ffffff;
+        }
 
-
-                <!--Cabeçalho da Listagem-->
-                <legend><h1>Listagem do Clientes</h1></legend>
-
-                <!--Formulário pesquisa-->
-                <form action="" method="get" id="form-contato" class="form-horizontal col-md-10">
-                <label for="termo" class="col-md-2 control-label">Pesquisar</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" id="termo" name="termo" placeholder="Informe o Nome ou E-mail">
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="indexcli.php">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="indexfor.php">Fornecedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="indexusu.php">Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="indexpro.php">Produtos</a>
+                    </li>
+                </ul>
+                <?php if(!empty($_SESSION["nome"])): ?>
+                <span id="nomeUsu"></span>
+                <div class="d-flex" role="search" style="padding-left: 1rem;">
+                <a href="sair.php"><button class="bundao">Sair</button></a>
                 </div>
-                <button type="submit" class="btn btn-primary">Pesquisar</button>
-                <a href="index.php" class="btn btn-primary">Ver Todos</a>
-                </form>
-
-                <!--Link para página de cadatro-->
-                <a href="cadastro.php" class="btn btn-success pull-right">Cadastrar Cliente</a>
-                <div class="clearfix"></div>
-
-                <?php if(!empty($clientes)):?>
-
-                    <!--Tabela de Clientes-->
-                    <table class="table table-striped">
-                        <tr class='active'>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Celular</th>
-                            <th>Status</th>
-                            <th>Ação</th>
-                        </tr>
-                        <?php foreach($clientes as $cliente):?>
-                            <tr>
-                                <td><?=$cliente->nome?></td>
-                                <td><?=$cliente->email?></td>
-                                <td><?=$cliente->celular?></td>
-                                <td><?=$cliente->status?></td>
-                                <td>
-                                    <a href='editar.php?id=<?=$cliente->id?>' class="btn btn-primary">Editar</a>
-                                    <a href='javascript:void(0)' class="btn btn-danger link_exclusao" rel="<?=$cliente->id?>">Excluir</a>
-                                </td>
-                            </tr>
-                        <?php endforeach;?>
-                    </table>
-
-            <?php else: ?>
-
-                <!--Mensagem caso não exista clientes ou não encontrado-->
-                <h3 class="text-center text-primary">Não existem clientes cadastrados!</h3>
-                <?php endif;?>
-            </fieldset>
+                <?php else:  ?>
+                <div class="d-flex" role="search">
+                    <a href="login.php"><button class="bundao">Login</button></a>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
-                <script type="text/javascript" src="js/custom.js"></script>
-    </body>
-</html> 
+    </nav>
+    <div class="container py-4">
+        <div class="p-5 mb-4 bg-body-tertiary border rounded-3">
+            <div class="container-fluid py-5 centro">
+                <h2 class="display-5 fw-bold">Tela de Clientes</h2>
+                <a href="indexcli.php">
+                    <button class="butao" type="button">Entrar</button>
+                </a>
+            </div>
+        </div>
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-body-tertiary border rounded-3 centro">
+                    <h2 class="display-5 fw-bold">Tela de Fornecedores</h2>
+                    <a href="indexfor.php">
+                        <button class="butao" type="button">Entrar</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-body-tertiary border rounded-3 centro">
+                    <h2 class="display-5 fw-bold">Tela de Usuários</h2>
+                    <a href="indexusu.php">
+                        <button class="butao" type="button">Entrar</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="p-5 mb-4 bg-body-tertiary border rounded-3">
+            <div class="container-fluid py-5 centro">
+                <h2 class="display-5 fw-bold">Tela de Produtos</h2>
+                <a href="indexpro.php">
+                    <button class="butao" type="button">Entrar</button>
+                </a>
+            </div>
+        </div
+    </div>
+    <div class="container">
+        <footer class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Início</a></li>
+            <li class="nav-item"><a href="indexcli.php" class="nav-link px-2 text-body-secondary">Clientes</a></li>
+            <li class="nav-item"><a href="indexfor.php" class="nav-link px-2 text-body-secondary">Fornecedores</a></li>
+            <li class="nav-item"><a href="indexusu.php" class="nav-link px-2 text-body-secondary">Usuários</a></li>
+          </ul>
+          <p class="text-center text-body-secondary">&copy; 2024 Company, Inc</p>
+        </footer>
+    </div>
+    <!-- link do js do bootstrap na máquina -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const usernamePlaceholder = document.getElementById("nomeUsu");
+        
+        // Verifica se o usuário está logado
+        const isLoggedIn = <?php echo isset($_SESSION["nome"]) ? "true" : "false"; ?>;
+        
+        if (isLoggedIn) {
+            const username = "<?php echo isset($_SESSION["nome"]) ? $_SESSION["nome"] : ""; ?>";
+            usernamePlaceholder.innerHTML = `Olá, `+username+`!`; // Exibe o nome de usuário
+        } else {
+            usernamePlaceholder.innerHTML = "";
+            // alert('nada conectado'); // Deixa em branco se não estiver logado
+        }
+    });
+    </script>
+    
+</body>
+</html>
