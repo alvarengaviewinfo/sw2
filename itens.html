@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="img/icons/fornecedor.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Link do css do bootstrap na maquina
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css.map">
+    link css do bootstrap da barra de pesquisa -->
+    <!-- <link rel="stylesheet" href="css/navbar-fixed.css">
+    link css customizado 
+    <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+        
+    </style>
+</head>
+<body>
+    <table class="table table-striped">
+        <tr class="active">
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Celular</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+                <td style=" width: 30rem;">'. $usuario->nome .'
+                </td>
+                <td>'.$usuario->email.'
+                </td>
+                <td>'. $usuario->celular .'
+                </td>
+                <td>'. $usuario->acesso .'
+                </td>                
+            </tr></table>
+</body>
+</html>

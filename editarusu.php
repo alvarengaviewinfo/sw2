@@ -1,14 +1,15 @@
 <?php
     require 'bd/conexao.php';
 
-    
+    // Recebe o id do usuario via GET
     $id_usuario = (isset($_GET['id'])) ? $_GET['id'] : '';
 
+    // Valida se existe um id e se ele é numérico
     if (!empty($id_usuario) && is_numeric($id_usuario)):
 
-   
+        // Captura os dados do cliente solicitado
         $conexao = conexao::getInstance();
-        $sql = 'SELECT id, nome, email, senha, celular, status FROM usuario WHERE id = :id';
+        $sql = 'SELECT id, nome, email, senha, celular, acesso, status FROM usuario WHERE id = :id';
         $stm = $conexao -> prepare($sql);
         $stm -> bindValue(':id', $id_usuario);
         $stm -> execute();
@@ -23,8 +24,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edição de Usuário</title>
-
+    <!--- link css bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- css bootstrap máquina -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    
     <link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
 <body>
@@ -56,13 +60,23 @@
                     <span class="msg-erro msg-celular"></span>
                 </div>
                 <div class="form-group">
-                    <label for="status">Status</label>
-                    <select class="form-control" name="status" id="status">
-                        <option value="<?=$usuario->status?>"><?=$usuario->status?></option>
-                        <option value="Ativo">Ativo</option>
-                        <option value="Inativo">Inativo</option>
+                    <label for="acesso">Acesso</label>
+                    <select class="form-control" name="acesso" id="acesso">
+                        <option value="<?=$usuario->acesso?>"><?=$usuario->acesso?></option>
+                        <option value="Adm">Administrador</option>
+                        <option value="Usuário">Usuário</option>
                     </select>
-                    <span class="msg-erro msg-status"></span>
+                    <span class="msg-erro msg-acesso"></span>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status">
+                            <option value="<?=$usuario->status?>"><?=$usuario->status?></option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                        <span class="msg-erro msg-status"></span>
+                    </div>
+                    
                     <input type="hidden" name="acao" value="editar">
                     <input type="hidden" name="id" value="<?=$usuario->id?>">
                     <button type="submit" class="btn btn-primary" id="botao">
@@ -76,5 +90,7 @@
 
     </div>
     <script type="text/javascript" src="js/customusu.js"></script>
+    <!-- js do bootstrap na máquina -->
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

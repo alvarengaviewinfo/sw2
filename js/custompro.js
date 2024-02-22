@@ -7,21 +7,12 @@ else if (form != null && form.attachEvent) {
     form.attachEvent("onsubmit", validaCadastro);
 }
 
-/* Atribui ao evento keypress do input celular a função para formatar do Valor (0.00) */
-var inputValor = document.getElementById("valor");
-if (inputValor != null && inputCelular.addEventListener) {
-    inputValor.addEventListener("keypress", function () { mascaraTexto(this, '#.##') });
-}
-else if (inputValor != null && inputValor.attachEvent) {
-    inputValor.attachEvent("onkeypress", function () { mascaraTexto(this, '#.##') });
-}
-
 /* Atribui ao evento click do link de exclusão na página de consulta a função confirmaExclusao */
 var linkExclusao = document.querySelectorAll(".link_exclusao");
 if (linkExclusao != null){
     for (var i = 0; i < linkExclusao.length; i++){
         (function(i){
-            var id_usuario = linkExclusao[i].getAttribute("rel");
+            var id_produto = linkExclusao[i].getAttribute("rel");
             if(linkExclusao[i].addEventListener){
                 linkExclusao[i].addEventListener("click", function(){confirmaExclusao(id_produto);});
             }else if (linkExclusao[i].attachEvent){
@@ -35,7 +26,6 @@ if (linkExclusao != null){
 function validaCadastro(evt) {
     var nome = document.getElementById("nome");
     var valor = document.getElementById("valor");
-    var foto1 = document.getElementById("foto1");
     var filtro = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     var contErro = 0;
 
@@ -48,33 +38,18 @@ function validaCadastro(evt) {
     } else {
         caixa_nome.style.display = 'none';
     }
-
-    /* Validação do campo email */
-    caixa_valor = document.querySelector(".msg-preco");
+    /* Validação do campo valor */
+    caixa_valor = document.querySelector(".msg-imagem1");
     if (valor.value == "") {
-        caixa_valor.innerHTML = "Favor preencher o Preço de Venda";
+        caixa_valor.innerHTML = "Favor preencher o Valor";
         caixa_valor.style.display = 'block';
         contErro += 1;
-    } else if (filtro.test(valor.value)) {
+    }else if(parseFloat(valor.value)<= 0.05){
+        caixa_valor.innerHTML = "Favor preencher o valor com um número positivo maior que 5 centavos";
+        caixa_valor.style.display = 'block';
+        contErro += 1;
+    } else {
         caixa_valor.style.display = 'none';
-    } else {
-        caixa_valor.innerHTML = 'Formato do Preço Inválido';
-        caixa_valor.style.display = 'block';
-        contErro += 1;
-    }
-
-    /* Validação do campo cpf */
-    caixa_foto = document.querySelector(".msg-foto");
-    if (foto1.value == "") {
-        caixa_foto.innerHTML = "Favor informar uma foto";
-        caixa_foto.style.display = 'block';
-        contErro += 1;
-    } else {
-        caixa_foto.style.display = 'none';
-    }
-
-    if (contErro > 0) {
-        evt.preventDefault();
     }
 }
 

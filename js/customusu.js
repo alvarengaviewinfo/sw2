@@ -36,7 +36,7 @@ function validaCadastro(evt) {
     var nome = document.getElementById("nome");
     var email = document.getElementById("email");
     var senha = document.getElementById("senha");
-    var status = document.getElementById("status");
+    var acesso = document.getElementById("acesso");
     var celular = document.getElementById("celular");
     var filtro = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     var contErro = 0;
@@ -85,11 +85,11 @@ function validaCadastro(evt) {
         caixa_celular.style.display = 'none';
     }
 
-    /* Validação do campo status */
-    caixa_status = document.querySelector(".msg-status");
-    if (status.value == "") {
-        caixa_status.innerHTML = "Favor selecionar o Status";
-        caixa_status.style.display = 'block';
+    /* Validação do campo acesso */
+    caixa_acesso = document.querySelector(".msg-acesso");
+    if (acesso.value == "") {
+        caixa_acesso.innerHTML = "Favor selecionar o Acesso";
+        caixa_acesso.style.display = 'block';
         contErro += 1;
     } else {
         caixa_status.style.display = 'none';

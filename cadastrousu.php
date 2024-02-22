@@ -9,7 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Usuário</title>
     <!--- link css bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- css bootstrap máquina -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
@@ -38,13 +41,22 @@
                     <span class="msg-erro msg-celular"></span>
                 </div>
                 <div class="form-group">
-                    <label for="status">Status</label>
-                    <select class="form-control" name="status" id="status">
-                        <option value="">Selecione o Status</option>
-                        <option value="Ativo">Ativo</option>
-                        <option value="Inativo">Inativo</option>
+                    <label for="acesso">Acesso</label>
+                    <select class="form-control" name="acesso" id="acesso">
+                        <option value="">Selecione o Acesso</option>
+                        <option value="Adm">Administrador</option>
+                        <option value="Usuário">Usuário</option>
                     </select>
-                    <span class="msg-erro msg-status"></span>
+                    <span class="msg-erro msg-acesso"></span>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status">
+                        <option value="">Selecione o Status</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                        <span class="msg-erro msg-status"></span>
+                    </div>
                     <input type="hidden" name="acao" value="incluir">
                     <button type="submit" class="btn btn-primary" id="botao">
                         Gravar
@@ -57,6 +69,8 @@
     <script type="text/javascript" src="js/custom.js"></script>
 
     <!---link do js bootstrap-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <!-- js do bootstrap na máquina -->
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

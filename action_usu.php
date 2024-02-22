@@ -4,7 +4,10 @@
      <meta charset="utf-8">
      <title>Sistema de Cadastro</title>
     <!--- link css bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- css bootstrap máquina -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    
     <link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
  <body>
@@ -19,6 +22,7 @@
         $senha = (isset ($_POST['senha'])) ? $_POST['senha'] : '';
         $email = (isset ($_POST['email'])) ? $_POST['email'] : '';
         $celular = (isset ($_POST ['celular'])) ? str_replace(array('-',' '), '',$_POST['celular']) : '';
+        $acesso = (isset ($_POST[ 'acesso'])) ? $_POST['acesso'] : '';
         $status = (isset ($_POST[ 'status'])) ? $_POST['status'] : '';
         // Valida os dados recebidos
         $mensagem = '';
@@ -40,6 +44,9 @@
             elseif (strlen($celular) < 11):
                 $mensagem .= '<li>Formato do Celular inválido. </li>';
             endif;
+            if ($acesso == ''):
+                $mensagem .= '<li>Favor preencher O Acesso.</li>';
+            endif;
             if ($status == ''):
                 $mensagem .= '<li>Favor preencher O Status.</li>';
             endif;
@@ -53,13 +60,14 @@
         // Verifica se foi solicitada a inclusão de dados
         if ($acao == 'incluir'):
 
-        $sql = 'INSERT INTO usuario (nome, email, senha, celular, status)
-                        VALUES (:nome, :email, :senha, :celular, :status)';
+        $sql = 'INSERT INTO usuario (nome, email, senha, celular, acesso, status)
+                        VALUES (:nome, :email, :senha, :celular, :acesso, :status)';
         $stm = $conexao->prepare($sql);
         $stm->bindValue(':nome', $nome);
         $stm->bindValue(':email', $email);
         $stm->bindValue(':senha', $senha);
         $stm->bindValue(':celular', $celular);
+        $stm->bindValue(':acesso', $acesso);
         $stm->bindValue(':status', $status);
         $retorno = $stm->execute();
 
@@ -69,13 +77,13 @@
             echo "<div class= 'alert alert-danger' role= 'alert'>Erro ao inserir registro!</div> ";
         endif;
 
-        echo "<meta http-equiv=refresh content= '3;URL=indexusu.php')";
+        echo "<meta http-equiv=refresh content= '1;URL=indexusu.php')";
     endif;
 
     // Verifica se foi solicitada a edição de dados
     if($acao == 'editar'):
 
-        $sql = 'UPDATE usuario SET nome=:nome, email=:email, senha=:senha, celular=:celular, status=:status ';
+        $sql = 'UPDATE usuario SET nome=:nome, email=:email, senha=:senha, celular=:celular, acesso=:acesso, status=:status ';
         $sql .= ' WHERE id=:id';
         
         $stm = $conexao->prepare($sql);
@@ -83,6 +91,7 @@
         $stm->bindValue(':email', $email);
         $stm->bindValue(':senha', $senha);
         $stm->bindValue(':celular', $celular);
+        $stm->bindValue(':acesso', $acesso);
         $stm->bindValue(':status', $status);
         $stm->bindValue(':id', $id);
         $retorno = $stm->execute();
@@ -93,7 +102,7 @@
             echo "<div class='alert alert-danger' role='alert'>Erro ao editar registro!</div>";
         endif;
 
-        echo"<meta http-equiv=refresh content='3;URL=indexusu.php'>";
+        echo"<meta http-equiv=refresh content='1;URL=indexusu.php'>";
     endif;
 
     // Verifica se foi solicitada a exclusão dos dados
@@ -111,8 +120,10 @@
             echo "<div class='alert alert-danger' role='alert'>Erro ao excluir registro!</div>";
         endif;
 
-        echo"<meta http-equiv=refresh content='3;URL=indexusu.php'>";
+        echo"<meta http-equiv=refresh content='1;URL=indexusu.php'>";
     endif;
     ?>
+    <!-- js do bootstrap na máquina -->
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

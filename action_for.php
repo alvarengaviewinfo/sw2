@@ -4,8 +4,11 @@
      <meta charset="utf-8">
      <title>Sistema de Cadastro</title>
     <!--- link css bootstrap -->
-     <link rel="stylesheet" href="css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- css bootstrap máquina -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
  <body>
     <?php
@@ -101,7 +104,7 @@
             echo "<div class= 'alert alert-danger' role= 'alert'>Erro ao inserir registro!</div> ";
         endif;
 
-        echo "<meta http-equiv=refresh content= '3;URL=indexfor.php')";
+        echo "<meta http-equiv=refresh content= '1;URL=indexfor.php')";
     endif;
 
     // Verifica se foi solicitada a edição de dados
@@ -129,7 +132,7 @@
             echo "<div class='alert alert-danger' role='alert'>Erro ao editar registro!</div>";
         endif;
 
-        echo"<meta http-equiv=refresh content='3;URL=indexfor.php'>";
+        echo"<meta http-equiv=refresh content='1;URL=indexfor.php'>";
     endif;
 
     // Verifica se foi solicitada a exclusão dos dados
@@ -147,8 +150,10 @@
             echo "<div class='alert alert-danger' role='alert'>Erro ao excluir registro!</div>";
         endif;
 
-        echo"<meta http-equiv=refresh content='3;URL=indexfor.php'>";
+        echo"<meta http-equiv=refresh content='1;URL=indexfor.php'>";
     endif;
     ?>
+    <!-- js do bootstrap na máquina -->
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
